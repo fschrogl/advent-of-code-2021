@@ -25,8 +25,10 @@ class Day01 {
 
     fun solution1(filename: String): Int {
         val input = Day01::class.java.getResource(filename)
-            ?.readText(Charsets.UTF_8)
-            ?.split("\n")
+            ?.readText()
+            ?.lines()
+            ?.filter { it.isNotEmpty() }
+            ?.map { it.toInt() }
             ?: throw NullPointerException("Input file not found")
 
         var counter = 0
@@ -37,6 +39,9 @@ class Day01 {
 }
 
 fun main() {
-    println("day01-solution1-test: ${Day01().solution1("day01a.test.txt")}")
-    println("day01-solution1: ${Day01().solution1("day01a.input.txt")}")
+    println("""
+        Day 1-1
+            test1 = ${Day01().solution1("input1-test1.txt")} (expected: 7)
+            ex1   = ${Day01().solution1("input1.txt")} (expected: 1462)
+    """.trimIndent())
 }
