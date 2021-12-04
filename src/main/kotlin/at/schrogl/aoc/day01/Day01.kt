@@ -23,25 +23,39 @@ package at.schrogl.aoc.day01
 
 class Day01 {
 
-    fun solution1(filename: String): Int {
-        val input = Day01::class.java.getResource(filename)
-            ?.readText()
-            ?.lines()
-            ?.filter { it.isNotEmpty() }
-            ?.map { it.toInt() }
-            ?: throw NullPointerException("Input file not found")
+    fun readInput(filename: String) = Day01::class.java.getResource(filename)
+        ?.readText()
+        ?.lines()
+        ?.filter { it.isNotEmpty() }
+        ?.map { it.toInt() }
+        ?: throw NullPointerException("Input file not found")
+}
 
-        var counter = 0
-        for (i in 1 until input.size) counter += if (input[i - 1] < input[i]) 1 else 0
-        return counter
+fun List<Int>.solution1(): Int {
+    var counter = 0
+    for (i in 1 until size) counter += if (this[i - 1] < this[i]) 1 else 0
+    return counter
+}
+
+fun List<Int>.solution2(): Int {
+    val newLIst = mutableListOf<Int>()
+    for (i in indices) {
+        if (i + 2 < size)
+            newLIst.add(subList(i, i + 3).sum())
     }
-
+    return newLIst.solution1()
 }
 
 fun main() {
-    println("""
+    println(
+        """
         Day 1-1
-            test1 = ${Day01().solution1("input1-test1.txt")} (expected: 7)
-            ex1   = ${Day01().solution1("input1.txt")} (expected: 1462)
-    """.trimIndent())
+            test1 = ${Day01().readInput("input-test.txt").solution1()} (expected: 7)
+            ex1   = ${Day01().readInput("input.txt").solution1()}
+            
+        Day 1-2
+            test2 = ${Day01().readInput("input-test.txt").solution2()} (expected: 5)
+            ex1   = ${Day01().readInput("input.txt").solution2()}
+    """.trimIndent()
+    )
 }
